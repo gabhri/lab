@@ -42,9 +42,11 @@ Workflow:
       * `kind load docker-image hextris:latest --name lab` - upload docker image to KIND
       * `docker exec -it $(kind get clusters | head -1)-control-plane crictl images` - list all images in KIND, make sure you see uploaded image
       
-   A created helm chart is located in `helm-hextris` directory
-
-3. De
+   A created helm chart is located in `helm-hextris` directory.
+   
+3. Deploy the helm chart to Kubernetes cluster
+   * `helm install hextris ./helm-hextris/ -n hextris` - this command installing helm chart from **helm-hextris** directory into the **hextris** namespace in Kubernetes cluster with name hextris
+   * `kubectl get all -n hextris` - you can verify that Hextris application is running correctly, pod should be in Running state
 
  
 
