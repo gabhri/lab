@@ -34,6 +34,7 @@ Workflow:
       * `kubectl get all` - to check if you see ClusterIP
 
 2. Create a helm chart for deployment of a HEXTRIS game
+
    Build a docker image of HEXTRIS application
    * `docker build -t hextris .` - this command build docker image of a Hextris application with the tag **latest**
    * `docker images` - to verify if you see built image
