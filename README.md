@@ -28,6 +28,7 @@ Workflow:
       * ```terraform init``` - to initialize working directory and install required providers
       * ```terraform plan``` - create an execution plan that Terraform is going to make
       * ```terraform apply -auto-approve``` - executes proposed plan in order to create infrastructure. Terraform code is written with respect to dependencies, but it may happen that terraform state will be showing KIND as deployed, but KIND still might be in booting state. In case of ERROR, just wait a couple of minutes and try again. Works for sure. 
+      * ```terraform destroy``` - if you decided to destroy KIND
       
    You can verify cluster deployment with:
       * `docker ps -a` - to see if all docker containers are running
@@ -50,7 +51,8 @@ Workflow:
    * `helm install hextris ./helm-hextris/ -n hextris` - this command installing helm chart from **helm-hextris** directory into the **hextris** namespace in Kubernetes cluster with name of hextris
    * `kubectl get all -n hextris` - you can verify that Hextris application is running correctly, pod should be in Running state
    * `values.yaml` - used for variables/values needed/wanted for Helm Chart
-   * `helm install hextris ./helm-hextris/ -n hextris` - if you made changes to values.yaml and want to redeploy/upgrade the installation of Helm Chart.
+   * `helm upgrade hextris ./helm-hextris/ -n hextris` - if you made changes to values.yaml and want to redeploy/upgrade the installation of Helm Chart.
+   * `helm uninstall hextris ./helm-hextris/ -n hextris` - if you want to uninstal Helm chart from KIND
 
  
 
