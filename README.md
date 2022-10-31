@@ -26,8 +26,8 @@ Workflow:
    Make sure you current directory is `terraform-kind`, then:
 
       * ```terraform init``` - to initialize working directory and install required providers
-      * ```terraform plan``` - (optional) to see an execution plan that Terraform is going to make
-      * ```terraform apply -auto-approve``` - executes proposed plan in order to create infrastructure
+      * ```terraform plan``` - create an execution plan that Terraform is going to make
+      * ```terraform apply -auto-approve``` - executes proposed plan in order to create infrastructure. Terraform code is written with respect to dependencies, but it may happen that terraform state will be showing KIND as deployed, but KIND still might be in booting state. In case of ERROR, just wait a couple of minutes and try again. Works for sure. 
       
    You can verify cluster deployment with:
       * `docker ps -a` - to see if all docker containers are running
@@ -42,12 +42,15 @@ Workflow:
    Now, as there is no docker registry that KIND could access, we need to upload newly built docker image to the cluster:
       * `kind load docker-image hextris:latest --name lab` - upload docker image to KIND
       * `docker exec -it $(kind get clusters | head -1)-control-plane crictl images` - list all images in KIND, make sure you see uploaded image
+      * Alternatively we could push a new docker image to accessible docker registry
       
-   A created helm chart is located in `helm-hextris` directory.
+   A created helm chart with specified docker image is located in `helm-hextris` directory. Also as an **optional** feature ingress is preconfigured to serve an appplication on port 80 or 443 (depending on variables set in values.yaml). IMPORTANT: KIND is not a real Kubernetes deployment, so additional steps of configuring INGRESS to work are needed, such as: correct host specification, DNS configuration on a VM, etc. - Not a scope of a current task. Rather a concept of how it could be expanded. 
    
 3. Deploy the helm chart to Kubernetes cluster
-   * `helm install hextris ./helm-hextris/ -n hextris` - this command installing helm chart from **helm-hextris** directory into the **hextris** namespace in Kubernetes cluster with name hextris
+   * `helm install hextris ./helm-hextris/ -n hextris` - this command installing helm chart from **helm-hextris** directory into the **hextris** namespace in Kubernetes cluster with name of hextris
    * `kubectl get all -n hextris` - you can verify that Hextris application is running correctly, pod should be in Running state
+   * `values.yaml` - used for variables/values needed/wanted for Helm Chart
+   * `helm install hextris ./helm-hextris/ -n hextris` - if you made changes to values.yaml and want to redeploy/upgrade the installation of Helm Chart.
 
  
 
